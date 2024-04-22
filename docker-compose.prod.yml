@@ -50,9 +50,7 @@ services:
       QNS_MAIL_FROM: ${QNS_MAIL_FROM}
       QNS_CSRF_KEY: ${QNS_CSRF_KEY}
   caddy:
-    build:
-      context: ./caddy
-      dockerfile: Dockerfile
+    image: caddy:alpine
     networks:
       - quicknotes
     ports:

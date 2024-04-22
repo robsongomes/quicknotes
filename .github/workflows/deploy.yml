@@ -10,10 +10,23 @@ jobs:
         uses: actions/checkout@v1
       - name: Deploying to remote cloud server
         uses: easingthemes/ssh-deploy@main
-        env:
+        with:
           SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
           ARGS: "-rlgoDzvc -i"
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
+          SCRIPT_AFTER: |
+            su - docker
+            export POSTGRES_PASSWORD: ${{secrets.DB_PASSWORD}}
+            export POSTGRES_USER: ${{secrets.DB_USER}}
+            export QNS_DB_CONN_URL: postgres://${{secrets.DB_USER}}:${{secrets.DB_PASSWORD}}@db:5432/${{secrets.DB_USER}}?sslmode=disable
+            export QNS_MAIL_FROM: q{uicknotes@quick.com}
+            export QNS_MAIL_HOST: ${{secrets.MAIL_HOST}}
+            export QNS_MAIL_PORT: ${{secrets.MAIL_PORT}}
+            export QNS_MAIL_USERNAME: ${{secrets.MAIL_USERNAME}}
+            export QNS_MAIL_PASSWORD: ${{secrets.MAIL_PASSWORD}}
+            export QNS_CSRF_KEY: ${{secrets.CSRF_KEY}}
+            cd /app
+            docker compose -f ./docker-compose.prod.yml up -d --build

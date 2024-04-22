@@ -31,4 +31,5 @@ jobs:
             echo "QNS_MAIL_USERNAME=${{secrets.QNS_MAIL_USERNAME}}" >> .env
             echo "QNS_MAIL_PASSWORD=${{secrets.QNS_MAIL_PASSWORD}}" >> .env
             echo "QNS_CSRF_KEY=${{secrets.QNS_CSRF_KEY}}" >> .env
+            docker compose -f ./docker-compose.prod.yml stop
             docker compose -f ./docker-compose.prod.yml up -d --build &

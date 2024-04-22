@@ -21,8 +21,8 @@ jobs:
             su - docker
             cd /app
             rm -f .env
-            echo "POSTGRES_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env
-            echo "POSTGRES_USER=${{secrets.DB_USER}}" >> .env
+            echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env
+            echo "DB_USER=${{secrets.DB_USER}}" >> .env
             echo "DUCK_DNS_TOKEN=${{secrets.DUCK_DNS_TOKEN}}" >> .env
             echo "QNS_DB_CONN_URL=postgres://${{secrets.DB_USER}}:${{secrets.DB_PASSWORD}}@db:5432/${{secrets.DB_USER}}?sslmode=disable" >> .env
             echo "QNS_MAIL_FROM=${{secrets.QNS_MAIL_FROM}}" >> .env
